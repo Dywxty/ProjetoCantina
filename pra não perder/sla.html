@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cantina Escolar - Projeto II</title>
+    <link rel="stylesheet" href="sla.css">
+</head>
+<body>
+
+<header class="hero">
+    <div class="hero-content">
+        <h1>Cantina Escolar</h1>
+        <p>Peça online, evite filas e acompanhe seus gastos!</p>
+        <button onclick="scrollCardapio()">Ver Cardápio</button>
+    </div>
+</header>
+
+<section id="cardapio">
+
+    <h2>Cardápio</h2>
+
+    <!-- SALGADOS -->
+    <div class="categoria">
+        <h3>Salgados - R$6,00</h3>
+        <div class="grid">
+            <div class="card">Coxinha <span>R$6,00</span></div>
+            <div class="card">Enroladinho de chocolate <span>R$6,00</span></div>
+            <div class="card">Enroladinho de presunto <span>R$6,00</span></div>
+            <div class="card">Rissoles <span>R$6,00</span></div>
+            <div class="card">Bauru <span>R$6,00</span></div>
+            <div class="card">Enroladinho de calabresa <span>R$6,00</span></div>
+            <div class="card">Esfirra de frango <span>R$6,00</span></div>
+            <div class="card">Esfirra de carne <span>R$6,00</span></div>
+            <div class="card">Esfirra 3 queijos <span>R$6,00</span></div>
+            <div class="card">Pão de queijo <span>R$6,00</span></div>
+            <div class="card">Esfirra aberta <span>R$6,00</span></div>
+        </div>
+    </div>
+
+    <!-- LANCHES -->
+    <div class="categoria">
+        <h3>Lanches - R$12,00</h3>
+        <div class="grid">
+            <div class="card">X-Tudo <span>R$12,00</span></div>
+            <div class="card">X-Salada <span>R$12,00</span></div>
+            <div class="card">X-Bacon <span>R$12,00</span></div>
+            <div class="card">Lanche natural <span>R$12,00</span></div>
+            <div class="card">Sanduíche simples <span>R$12,00</span></div>
+            <div class="card">Sanduíche de atum <span>R$12,00</span></div>
+        </div>
+    </div>
+
+    <!-- BEBIDAS -->
+    <div class="categoria">
+        <h3>Bebidas</h3>
+        <div class="grid">
+            <div class="card">Café <span>R$2,50</span></div>
+            <div class="card">Suco artificial <span>R$3,50</span></div>
+            <div class="card">Suco natural <span>R$6,00</span></div>
+            <div class="card">Refri 300ml <span>R$5,50</span></div>
+            <div class="card">Refri 2L <span>R$15,00</span></div>
+            <div class="card">Energético <span>R$12,00</span></div>
+        </div>
+    </div>
+
+    <!-- ALMOÇOS -->
+    <div class="categoria">
+        <h3>Almoços - R$25,00</h3>
+        <div class="grid">
+            <div class="card">Lasanha <span>R$25,00</span></div>
+            <div class="card">Arroz, feijão e bife <span>R$25,00</span></div>
+            <div class="card">Strogonoff com arroz <span>R$25,00</span></div>
+            <div class="card">Macarronada <span>R$25,00</span></div>
+        </div>
+    </div>
+
+</section>
+
+<section class="controle">
+    <h2>Controle do Aluno</h2>
+    <p>Acompanhe seus gastos diários, semanais e mensais.</p>
+    <button onclick="simularCompra()">Simular Compra</button>
+    <p id="total">Total gasto hoje: R$0,00</p>
+</section>
+
+<footer>
+    <p>Projeto II - Sistema de Cantina Escolar</p>
+</footer>
+
+<script src="sla.js"></script>
+</body>
+</html>

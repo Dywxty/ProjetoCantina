@@ -1,101 +1,60 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cantina do Prades</title>
-
+    <title>Login - Brunch</title>
     <link rel="stylesheet" href="assets/css/index.css">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?favmily=Playwrite+NZ+Basic:wght@100..400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
-<header>
-    <h1>Cantina do Prades</h1>
-</header>
-<body> 
-    
-<!-- HERO -->
-<section class="hero">
-    <div>
-        <h1>Comida Natural</h1>
-        <p>Descubra receitas saudáveis, frescas e deliciosas feitas com ingredientes naturais.</p>
-        <a href="#" class="btn">Ver Receitas</a>
-    </div>
-</section>
+<body>
 
-<!-- MENU -->
-<section class="menu">
-    <h2>Nosso Cardápio</h2>
-    <div class="menu-grid">
-        <div class="card">
-            <img src="https://source.unsplash.com/300x200/?salad" alt="">
-            <h3>Salada César</h3>
-            <p class="price">R$ 20</p>
-        </div>
-        <div class="card">
-            <img src="https://source.unsplash.com/300x200/?healthy-food" alt="">
-            <h3>Salada Verde</h3>
-            <p class="price">R$ 18</p>
-        </div>
-        <div class="card">
-            <img src="https://source.unsplash.com/300x200/?avocado-salad" alt="">
-            <h3>Salada Mexicana</h3>
-            <p class="price">R$ 22</p>
-        </div>
-        <div class="card">
-            <img src="https://source.unsplash.com/300x200/?vegetarian-food" alt="">
-            <h3>Prato Natural</h3>
-            <p class="price">R$ 25</p>
-        </div>
-    </div>
-</section>
+    <div class="container">
 
-<!-- VIDA SAUDÁVEL -->
-<section class="healthy">
-    <div class="healthy-text">
-        <h2>Noite Saudável</h2>
-        <p>Alimente-se melhor com pratos leves, nutritivos e cheios de sabor para o seu dia a dia.</p>
-        <a href="#" class="btn">Saiba Mais</a>
-    </div>
-    <div class="healthy-img">
-        <img src="https://source.unsplash.com/400x400/?avocado" alt="">
-    </div>
-</section>
+        <!-- Lado esquerdo -->
+        <div class="left">
+            <div class="image-box">
+                <img src="img/sandwich.png" alt="Sanduíche">
+            </div>
+        </div>
 
-<!-- CURSOS -->
-<section class="courses">
-    <h2>Aprenda Cozinhar Online</h2>
-    <div class="course-grid">
-        <div class="card">
-            <img src="https://source.unsplash.com/300x200/?cooking" alt="">
-            <h3>Curso de Saladas</h3>
-        </div>
-        <div class="card">
-            <img src="https://source.unsplash.com/300x200/?healthy-recipe" alt="">
-            <h3>Receitas Naturais</h3>
-        </div>
-        <div class="card">
-            <img src="https://source.unsplash.com/300x200/?vegetarian" alt="">
-            <h3>Alimentação Saudável</h3>
+        <!-- Lado direito -->
+        <div class="right">
+
+            <div class="logo">
+                <i class="fa-regular fa-camera"></i>
+                <span>LOGO•BRUNCH</span>
+            </div>
+
+            <div class="card">
+
+                <h1>LOGIN</h1>
+
+                <div class="input-group">
+                    <label>Email</label>
+                    <div class="input-box">
+                        <i class="fa-regular fa-envelope"></i>
+                        <input type="email" placeholder="Email">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Senha</label>
+                    <div class="input-box">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" placeholder="Senha" id="senha">
+                    </div>
+                </div>
+
+                <button id="btnLogin">Cadastrar</button>
+
+                <a href="#" class="forgot">Esqueceu a senha?</a>
+
+            </div>
+
         </div>
     </div>
-    <a href="#" class="btn">Ver Cursos</a>
-</section>
 
-<!-- NEWSLETTER -->
-<section class="newsletter">
-    <h2>Inscreva-se e siga-nos</h2>
-    <p>Receba novidades e receitas exclusivas.</p>
-    <br>
-    <input type="email" placeholder="Seu email">
-    <button>Se inscrever</button>
-</section>
 
-<footer>
-    © 2026 Comida Natural - Todos os direitos reservados
-</footer>
 </body>
+<script src="assets/js/index.js"></script>
 </html>
