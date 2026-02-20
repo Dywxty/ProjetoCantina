@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🍽️ Cantina Escolar — Projeto II</title>
+  <meta name="description" content="Sistema de pedidos online da cantina escolar. Peça sem fila, receba seu ticket!">
+  <meta name="theme-color" content="#FFD600">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍽️</text></svg>">
+  <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar">
+    <div class="navbar-brand" id="navbar-brand">
+      <div class="navbar-logo">🍽️</div>
+      <div>
+        <span class="navbar-title">Cantina Escolar</span>
+        <span class="navbar-subtitle">Projeto II — DEV</span>
+      </div>
+    </div>
+
+    <ul class="navbar-nav" id="nav-links">
+      <!-- Preenchido dinamicamente pelo JS -->
+    </ul>
+
+    <div id="nav-user"></div>
+
+    <!-- Botão menu mobile -->
+    <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Menu">☰</button>
+  </nav>
+
+  <!-- ===== SIDEBAR MOBILE ===== -->
+  <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+  <div class="sidebar-mobile" id="sidebar-mobile">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem">
+      <span style="font-size:1.2rem;font-weight:800;color:var(--marrom)">🍽️ Menu</span>
+      <button onclick="toggleSidebar()" style="background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--marrom)">✕</button>
+    </div>
+    <div id="sidebar-links">
+      <!-- Preenchido dinamicamente -->
+    </div>
+  </div>
+
+  <!-- ===== CONTEÚDO PRINCIPAL ===== -->
+  <main id="main-content">
+    <!-- Conteúdo renderizado pelo JS -->
+    <div class="loading" style="min-height:calc(100vh - 70px)">
+      <div class="spinner"></div>
+    </div>
+  </main>
+
+  <!-- ===== CONTAINER DE TOASTS ===== -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script src="../static/js/charts.js"></script>
+  <script src="../static/js/economico.js"></script>
+  <script src="../static/js/app.js"></script>
+  <script>
+    // ===== INTEGRAÇÃO: ROTA ECONÔMICO =====
+    // Sobrescrever renderPage para incluir a rota 'economico'
+    const _renderPageOriginal = renderPage;
+    
+    // Patch do roteador para incluir página econômica
+    const _originalSwitch = renderPage;
+    
+    // Adicionar rota de econômico ao switch do app.js
+    // Isso é feito sobrescrevendo a função após o carregamento
+    document.addEventListener('DOMContentLoaded', () => {
+      // Patch: adicionar rota econômico
+      const originalRender = window.renderPage;
+      window.renderPage = function(page, params = {}) {
+        if (page === 'economico') {
+          STATE.currentPage = 'economico';
+          const main = document.getElementById('main-content');
+          if (!main) return;
+          if (!STATE.currentUser || STATE.currentRole !== 'aluno') {
+            originalRender('login-aluno');
+            return;
+          }
+          main.innerHTML = '';
+          main.className = 'fade-in';
+          renderEconomico(main);
+          updateNavbar();
+          window.scrollTo(0, 0);
+          return;
+        }
+        originalRender(page, params);
+      };
+
+      // Patch: atualizar navbar para incluir link econômico
+      const originalUpdateNavbar = window.updateNavbar;
+      window.updateNavbar = function() {
+        originalUpdateNavbar();
+        // Atualizar brand com link correto
+        const brand = document.getElementById('navbar-brand');
+        if (brand) {
+          brand.style.cursor = 'pointer';
+          brand.onclick = () => renderPage(STATE.currentUser ? (STATE.currentRole === 'funcionario' ? 'painel-funcionario' : 'dashboard') : 'home');
+        }
+        // Adicionar link econômico no navbar do aluno
+        if (STATE.currentRole === 'aluno') {
+          const navLinks = document.getElementById('nav-links');
+          if (navLinks) {
+            const currentHTML = navLinks.innerHTML;
+            // Inserir link econômico após histórico
+            const newLink = `<li><button onclick="renderPage('economico')" class="${STATE.currentPage === 'economico' ? 'btn-nav-active' : ''}">💰 Econômico</button></li>`;
+            navLinks.innerHTML = currentHTML.replace(
+              /(<li><button onclick="renderPage\('historico'\).*?<\/li>)/,
+              '$1' + newLink
+            );
+          }
+        }
+      };
+
+      // Inicializar
+      DB.init();
+      checkSession();
+      renderPage('home');
+      setupToastContainer();
+    });
+
+    // ===== SIDEBAR MOBILE =====
+    function toggleSidebar() {
+      const overlay = document.getElementById('sidebar-overlay');
+      const sidebar = document.getElementById('sidebar-mobile');
+      const sidebarLinks = document.getElementById('sidebar-links');
+
+      overlay.classList.toggle('open');
+      sidebar.classList.toggle('open');
+
+      if (sidebar.classList.contains('open')) {
+        let links = '';
+        if (!STATE.currentUser) {
+          links = `
+            <button onclick="renderPage('home');toggleSidebar()">🏠 Início</button>
+            <button onclick="renderPage('login-aluno');toggleSidebar()">👤 Entrar como Aluno</button>
+            <button onclick="renderPage('login-funcionario');toggleSidebar()">👔 Entrar como Funcionário</button>
+            <button onclick="renderPage('cadastro');toggleSidebar()">✏️ Cadastrar-se</button>
+          `;
+        } else if (STATE.currentRole === 'aluno') {
+          links = `
+            <button onclick="renderPage('dashboard');toggleSidebar()">🏠 Início</button>
+            <button onclick="renderPage('cardapio');toggleSidebar()">🍽️ Cardápio</button>
+            <button onclick="renderPage('historico');toggleSidebar()">📋 Histórico</button>
+            <button onclick="renderPage('economico');toggleSidebar()">💰 Econômico</button>
+            <button onclick="renderPage('nutricional');toggleSidebar()">🥗 Nutricional</button>
+            <button onclick="renderPage('notificacoes');toggleSidebar()">🔔 Avisos</button>
+            <button onclick="logout();toggleSidebar()" style="color:var(--vermelho)">🚪 Sair</button>
+          `;
+        } else {
+          links = `
+            <button onclick="renderPage('painel-funcionario');toggleSidebar()">📊 Painel</button>
+            <button onclick="renderPage('devedores');toggleSidebar()">💸 Devedores</button>
+            <button onclick="renderPage('notif-funcionario');toggleSidebar()">📢 Notificações</button>
+            <button onclick="logout();toggleSidebar()" style="color:var(--vermelho)">🚪 Sair</button>
+          `;
+        }
+        sidebarLinks.innerHTML = links;
+      }
+    }
+
+    // Fechar sidebar ao pressionar ESC
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const sidebar = document.getElementById('sidebar-mobile');
+        if (sidebar && sidebar.classList.contains('open')) toggleSidebar();
+        document.querySelectorAll('.modal-overlay').forEach(m => m.remove());
+      }
+    });
+  </script>
+</body>
+</html>
